@@ -4,12 +4,13 @@
 
 <html>
 
-<head>
-  <title>Index Page</title>
-</head>
-
-<body>
-<a href="/signup">Регистрация</a>
-</body>
+    <head>
+        <title>Index Page</title>
+    </head>
+    
+    <body>
+        <a href="/sign_up">Регистрация</a>
+        <a href="/sign_in">Вход</a>
+    </body>
 
 </html>

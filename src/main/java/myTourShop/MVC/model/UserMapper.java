@@ -1,4 +1,4 @@
-package myTourShop.springMVC.model;
+package myTourShop.MVC.model;
 
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;

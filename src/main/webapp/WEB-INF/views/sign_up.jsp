@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-<form:form method="post"  modelAttribute="user" action="signup">
+<form:form method="post"  modelAttribute="user" action="sign_up">
 
     <form:label path="email">Email:</form:label>
     <br/>

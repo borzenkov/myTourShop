@@ -4,9 +4,6 @@
     <title>Second Page</title>
 </head>
 <body>
-Введенное имя: ${user.email};
-<br/>
-Введенный пароль: ${user.password};
-<br/>
+${message}
 </body>
 </html>

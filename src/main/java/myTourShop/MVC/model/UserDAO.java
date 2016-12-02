@@ -1,4 +1,4 @@
-package myTourShop.springMVC.model;
+package myTourShop.MVC.model;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -40,4 +40,10 @@ public interface UserDAO {
      * a record into the user table.
      */
     public void update(int id, String passwordHash);
+
+    public boolean exists(String email);
+
+    public boolean exists(String email, String password);
+
+    public void updateToken(String email, String token);
 }
