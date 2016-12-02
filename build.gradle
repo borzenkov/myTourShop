@@ -1,0 +1,21 @@
+group 'ru.innopolis.university'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.4.RELEASE'
+    compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212.jre7'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.4.RELEASE'
+    compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+
+
+}
