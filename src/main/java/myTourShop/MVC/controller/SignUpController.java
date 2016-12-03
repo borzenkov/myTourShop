@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import static myTourShop.MVC.Constants.EMAIL_EXISTS_MESSAGE;
 import static myTourShop.MVC.Constants.SIGN_UP_SUCCEEDED_MESSAGE;
+import static myTourShop.MVC.Constants.USER_ROLE;
 
 /**
  * Created by imac on 02.12.16.
@@ -44,13 +45,12 @@ public class SignUpController {
 
         if ( !userExists ) {
             String passwordHashCode = HashCodeGenerator.getHashCode( user.getPassword() );
-            userJDBCTemplate.create(user.getEmail(), passwordHashCode);
-            modelAndView.addObject("message", SIGN_UP_SUCCEEDED_MESSAGE);
+            userJDBCTemplate.create(user.getEmail(), passwordHashCode, USER_ROLE);
+            modelAndView.setViewName("sign_up_good_result");
         } else {
-            modelAndView.addObject("message", EMAIL_EXISTS_MESSAGE);
+            modelAndView.setViewName("sign_up_bad_result");
         }
 
-        modelAndView.setViewName("sign_up_result");
         return modelAndView;
     }
 }

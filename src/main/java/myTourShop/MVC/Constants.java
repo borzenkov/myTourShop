@@ -8,4 +8,7 @@ public class Constants {
     public static final String SIGN_UP_SUCCEEDED_MESSAGE = "Вы успешно зарегистрированы. Выполните вход.";
     public static final String SIGN_IN_FAILED_MESSAGE = "Неверный логин и/или пароль.";
     public static final String SIGN_IN_SUCCEEDED_MESSAGE = "Вход выполнен успешно.";
+    public static final String USER_ROLE = "user";
+    public static final String ADMIN_ROLE = "admin";
+    public static final String GUEST_ROLE = "guest";
 }

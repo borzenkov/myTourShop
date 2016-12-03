@@ -17,13 +17,13 @@ public interface UserDAO {
      * This is the method to be used to create
      * a record in the users table.
      */
-    public void create(String email, String passwordHash);
+    public void create(String email, String passwordHashCode, String role);
     /**
      * This is the method to be used to list down
      * a record from the user table corresponding
      * to a passed user id.
      */
-    public User getUser(int id);
+    public User getUser(String token);
     /**
      * This is the method to be used to list down
      * all the records from the user table.
@@ -46,4 +46,10 @@ public interface UserDAO {
     public boolean exists(String email, String password);
 
     public void updateToken(String email, String token);
+
+    public void updateEmail(String token, String email);
+
+    public void updatePassword(String token, String password);
+
+    public boolean existsWithToken(String token);
 }

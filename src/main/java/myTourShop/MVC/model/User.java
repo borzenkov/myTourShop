@@ -6,9 +6,18 @@ package myTourShop.MVC.model;
 public class User {
 
     private String email;
-    private String passwordHash;
+    private String passwordHashCode;
     private String password;
     private String token;
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public User() {}
 
@@ -28,12 +37,12 @@ public class User {
         this.password = password;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPasswordHashCode() {
+        return passwordHashCode;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPasswordHashCode(String passwordHashCode) {
+        this.passwordHashCode = passwordHashCode;
     }
 
     public String getEmail() {

@@ -46,14 +46,14 @@ public class SignInController {
         boolean userExists = userJDBCTemplate.exists(email, password);
 
         if ( !userExists ) {
-            modelAndView.addObject("message", SIGN_IN_FAILED_MESSAGE);
+            modelAndView.setViewName("sign_in_bad_result");
         } else {
             String token = TokenGenerator.nextToken();
             userJDBCTemplate.updateToken(email, token);
-            modelAndView.addObject("message", SIGN_IN_SUCCEEDED_MESSAGE);
+            modelAndView.addObject("token", token);
+            modelAndView.setViewName("sign_in_good_result");
         }
 
-        modelAndView.setViewName("sign_in_result");
         return modelAndView;
     }
 }

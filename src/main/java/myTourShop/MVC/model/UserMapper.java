@@ -8,7 +8,8 @@ public class UserMapper implements RowMapper<User> {
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         User user = new User();
         user.setEmail(rs.getString("email"));
-        user.setPasswordHash(rs.getString("passwordHash"));
+        user.setPasswordHashCode(rs.getString("password_hash_code"));
+        user.setRole(rs.getString("role"));
         return user;
     }
 }

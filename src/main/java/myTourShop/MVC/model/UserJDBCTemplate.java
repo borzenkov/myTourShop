@@ -18,16 +18,16 @@ public class UserJDBCTemplate implements UserDAO  {
         this.jdbcTemplateObject = new JdbcTemplate(dataSource);
     }
 
-    public void create(String email, String passwordHashCode) {
-        String SQL = "insert into users (email, password_hash_code) values (?, ?)";
-        jdbcTemplateObject.update(SQL, email, passwordHashCode);
+    public void create(String email, String passwordHashCode, String role) {
+        String SQL = "insert into users (email, password_hash_code, role) values (?, ?, ?)";
+        jdbcTemplateObject.update(SQL, email, passwordHashCode, role);
         System.out.println("Created Record email = " + email + " passwordHashCode = " + passwordHashCode);
     }
 
-    public User getUser(int id) {
-        String SQL = "select * from users where id = ?";
+    public User getUser(String token) {
+        String SQL = "select * from users where token = ?";
         User user = jdbcTemplateObject.queryForObject(SQL,
-                new Object[]{id}, new UserMapper());
+                new Object[]{token}, new UserMapper());
         return user;
     }
 
@@ -67,5 +67,26 @@ public class UserJDBCTemplate implements UserDAO  {
     public void updateToken(String email, String token) {
         String SQL = "UPDATE users SET token = ? WHERE email = ?";
         jdbcTemplateObject.update(SQL, token, email);
+    }
+
+    public void updateEmail(String token, String email) {
+        if( !"".equals(email) ) {
+            String SQL = "UPDATE users SET email = ? WHERE token = ?";
+            jdbcTemplateObject.update(SQL, email, token);
+        }
+    }
+
+    public void updatePassword(String token, String password) {
+        if( !"".equals(password) ) {
+            String passwordHashCode = HashCodeGenerator.getHashCode(password);
+            String SQL = "UPDATE users SET password_hash_code = ? WHERE token = ?";
+            jdbcTemplateObject.update(SQL, passwordHashCode, token);
+        }
+    }
+
+    public boolean existsWithToken(String token) {
+        String SQL = "SELECT count(*) FROM users WHERE token = ?";
+        Integer count = jdbcTemplateObject.queryForObject(SQL, Integer.class, token);
+        return count != null && count > 0;
     }
 }
