@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Created by imac on 03.12.16.
  */
 @Controller
-@SessionAttributes("token")
+@SessionAttributes("user")
 public class ProfileController {
 
     private ApplicationContext context =
@@ -24,40 +24,52 @@ public class ProfileController {
             (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public ModelAndView get(@ModelAttribute("token") String token) {
+    public ModelAndView get(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        boolean existsWithToken = userJDBCTemplate.existsWithToken(token);
+        boolean existsWithToken = userJDBCTemplate.existsWithToken(user.getToken());
         if(existsWithToken) {
-            User user = userJDBCTemplate.getUser(token);
+            user = userJDBCTemplate.getUser(user.getToken());
             modelAndView.addObject("user", user);
-        } else {}
+            modelAndView.setViewName("profile_viewer");
+        } else {
+            modelAndView.setViewName("sign_in");
+        }
 
-        modelAndView.setViewName("profile_viewer");
         return modelAndView;
     }
 
     @RequestMapping(value = "/profile_editor", method = RequestMethod.GET)
-    public ModelAndView openProfileEditor(@ModelAttribute("token") String token) {
+    public ModelAndView openProfileEditor(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        boolean existsWithToken = userJDBCTemplate.existsWithToken(token);
+        boolean existsWithToken = userJDBCTemplate.existsWithToken(user.getToken());
         if(existsWithToken) {
-            User user = userJDBCTemplate.getUser(token);
+            user = userJDBCTemplate.getUser(user.getToken());
             modelAndView.addObject("user", user);
-        } else {}
+            modelAndView.setViewName("profile_editor");
+        } else {
+            modelAndView.setViewName("sign_in");
+        }
 
-        modelAndView.setViewName("profile_editor");
         return modelAndView;
     }
 
     @RequestMapping(value = "/profile_editor", method = RequestMethod.POST)
-    public ModelAndView editProfile(@ModelAttribute("token") String token, @ModelAttribute("user") User user) {
+    public ModelAndView editProfile(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        boolean existsWithToken = userJDBCTemplate.existsWithToken(token);
+        boolean existsWithToken = userJDBCTemplate.existsWithToken(user.getToken());
         if(existsWithToken) {
-            userJDBCTemplate.updateEmail(token, user.getEmail());
-            userJDBCTemplate.updatePassword(token, user.getPassword());
-        } else {}
+            userJDBCTemplate.updateEmail(user.getToken(), user.getEmail());
+            userJDBCTemplate.updatePassword(user.getToken(), user.getPassword());
+            modelAndView.setViewName("profile_viewer");
+        } else {
+            modelAndView.setViewName("sign_in");
+        }
 
         return modelAndView;
+    }
+
+    @ModelAttribute("user")
+    public User initializeUser(){
+        return (User) context.getBean("user");
     }
 }

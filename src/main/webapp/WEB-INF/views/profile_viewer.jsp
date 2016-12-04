@@ -11,7 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-Ваш профиль. <a href="/profile_editor">Редактировать</a>.<br>
+<a href="/">На главную</a><br>
+Ваш профиль. <a href="/profile_editor">Редактировать</a><br>
 Ваш email: ${user.email}
 </body>
 </html>

@@ -10,6 +10,7 @@ public class UserMapper implements RowMapper<User> {
         user.setEmail(rs.getString("email"));
         user.setPasswordHashCode(rs.getString("password_hash_code"));
         user.setRole(rs.getString("role"));
+        user.setToken(rs.getString("token"));
         return user;
     }
 }

@@ -19,7 +19,7 @@ import static myTourShop.MVC.Constants.SIGN_IN_SUCCEEDED_MESSAGE;
  * Created by imac on 02.12.16.
  */
 @Controller
-@SessionAttributes("token")
+@SessionAttributes("user")
 public class SignInController {
 
     private ApplicationContext context =
@@ -29,8 +29,8 @@ public class SignInController {
 
     @RequestMapping(value = "/sign_in", method = RequestMethod.GET)
     public ModelAndView get() {
-        User user = (User) context.getBean("user");
         ModelAndView modelAndView = new ModelAndView();
+        User user = (User) context.getBean("user");
         modelAndView.addObject("user", user);
         modelAndView.setViewName("sign_in");
         return modelAndView;
@@ -49,11 +49,17 @@ public class SignInController {
             modelAndView.setViewName("sign_in_bad_result");
         } else {
             String token = TokenGenerator.nextToken();
+            user.setToken(token);
             userJDBCTemplate.updateToken(email, token);
-            modelAndView.addObject("token", token);
+            modelAndView.addObject("user", user);
             modelAndView.setViewName("sign_in_good_result");
         }
 
         return modelAndView;
+    }
+
+    @ModelAttribute("user")
+    public User initializeUser(){
+        return (User) context.getBean("user");
     }
 }

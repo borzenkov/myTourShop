@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import static myTourShop.MVC.Constants.EMAIL_EXISTS_MESSAGE;
@@ -19,6 +20,7 @@ import static myTourShop.MVC.Constants.USER_ROLE;
  * Created by imac on 02.12.16.
  */
 @Controller
+@SessionAttributes("user")
 public class SignUpController {
 
     private ApplicationContext context =
@@ -27,8 +29,7 @@ public class SignUpController {
             (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 
     @RequestMapping(value = "/sign_up", method = RequestMethod.GET)
-    public ModelAndView get() {
-        User user = (User) context.getBean("user");
+    public ModelAndView get(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
         modelAndView.setViewName("sign_up");
@@ -52,5 +53,10 @@ public class SignUpController {
         }
 
         return modelAndView;
+    }
+
+    @ModelAttribute("user")
+    public User initializeUser(){
+        return (User) context.getBean("user");
     }
 }

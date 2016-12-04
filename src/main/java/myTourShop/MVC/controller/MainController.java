@@ -17,7 +17,7 @@ import static myTourShop.MVC.Constants.ADMIN_ROLE;
  * Created by imac on 01.12.16.
  */
 @Controller
-@SessionAttributes("token")
+@SessionAttributes("user")
 public class MainController {
 
     private ApplicationContext context =
@@ -26,11 +26,10 @@ public class MainController {
             (UserJDBCTemplate)context.getBean("userJDBCTemplate");
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView get(@ModelAttribute("token") String token) {
+    public ModelAndView get(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
 
-        if ( userJDBCTemplate.existsWithToken(token) ) {
-            User user = userJDBCTemplate.getUser(token);
+        if ( userJDBCTemplate.existsWithToken(user.getToken()) ) {
             if ( ADMIN_ROLE.equals(user.getRole()) ) {
                 modelAndView.setViewName("index_for_admin");
             } else {
@@ -40,11 +39,12 @@ public class MainController {
             modelAndView.setViewName("index_for_guest");
         }
 
+        modelAndView.addObject("user", user);
         return modelAndView;
     }
 
-    @ModelAttribute("token")
-    public String initializeToken(){
-        return "";
+    @ModelAttribute("user")
+    public User initializeUser(){
+        return (User) context.getBean("user");
     }
 }
